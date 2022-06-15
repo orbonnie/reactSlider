@@ -1,2 +1,8 @@
 node_modules
-build
+node_modules/
+dist/bundle.js
+*.env
+*.sh
+
+# macOS
+.DS_Store

@@ -1,26 +1,23 @@
 const path = require('path');
-const HtmlWebPackPlugin = require('html-webpack-plugin');
+// const HtmlWebPackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-  output: {
-    path: path.resolve(__dirname, 'src'),
-    filename: 'bundle.js',
-  },
-  resolve: {
-    modules: [path.join(__dirname, 'src'), 'node_modules'],
-    alias: {
-      react: path.join(__dirname, 'node_modules', 'react'),
-    },
-  },
   mode: "development",
+  entry: path.join(__dirname, 'src', 'index.jsx'),
   module: {
     rules: [
       {
-        test: /\.(js|jsx)$/,
+        test: [/\.jsx$/],
         exclude: /node_modules/,
         use: {
           loader: 'babel-loader',
+          options: {
+            presets: ['@babel/preset-env', '@babel/preset-react']
+          }
         },
+        resolve: {
+          extensions: ['.js', '.jsx'],
+        }
       },
       {
         test: /\.(png|jpe?g|gif)$/i,
@@ -30,15 +27,25 @@ module.exports = {
           },
         ],
       },
+      // {
+      //   test: /\.s[ac]ss$/i,
+      //   use: ["style-loader", "css-loader", "sass-loader"],
+      // }
       {
         test: /\.css$/,
-        use: ['style-loader', 'css-loader'],
+        use: ['css-loader', 'style-loader'],
       }
-    ],
+    ]
   },
-  plugins: [
-    new HtmlWebPackPlugin({
-      template: './src/index.html',
-    }),
-  ],
+
+  output: {
+    path: path.resolve(__dirname, 'dist'),
+    filename: 'bundle.js'
+  }
+  // plugins: [
+  //   new HtmlWebPackPlugin({
+  //     template: './src/index.html',
+  //   }),
+  // ],
+
 };
